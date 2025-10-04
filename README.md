@@ -1,5 +1,5 @@
 <div align="center">
-[![Image](https://i.hizliresim.com/1tvv9n2.png)](https://hizliresim.com/1tvv9n2)
+<a href="https://hizliresim.com/1tvv9n2"><img src="https://i.hizliresim.com/1tvv9n2.png" alt="Resim Yükle"></a>
 
 # Learn if it will rain in your outdoor activities
 
