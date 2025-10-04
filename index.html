@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Will It Rain on My Düğün?</title>
+    <title>REGMESS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -172,7 +172,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const getForecastSummary = async (data) => {
   const isHistorical = data.totalYears !== undefined;
   const prompt = isHistorical ? `
-      You are a climatologist for the 'Will It Rain on My Düğün?' app.
+      You are a climatologist for the 'REGMESS' app.
       Based on historical data for this date over ${data.totalYears} years:
       - Rained in ${data.rainyYears} years.
       - Avg Temp: ${data.avgTemp.toFixed(1)}°C, Avg Wind: ${data.avgWind.toFixed(1)} km/h
@@ -180,7 +180,7 @@ const getForecastSummary = async (data) => {
       Analyze this and provide a JSON response. 'rainProbability' is (${data.rainyYears} / ${data.totalYears}) * 100. 'condition' must be one of: 'very wet', 'very windy', 'very hot', 'hot', 'standard', 'cold', 'very cold'.
       Rules: 1. Rain >= 40% of years -> 'very wet'. 2. Not 'very wet' & Wind > 40 km/h -> 'very windy'. 3. Else, based on Temp: >25°C -> 'very hot', 18-25°C -> 'hot', 8-17.9°C -> 'standard', 0-7.9°C -> 'cold', <0°C -> 'very cold'.`
     : `
-      You are a weather analyst for the 'Will It Rain on My Düğün?' app.
+      You are a weather analyst for the 'REGMESS' app.
       Based on this weather data:
       - Precip. Prob: ${data.precipitation_probability}%, Temp: ${data.temperature_2m}°C, Wind: ${data.wind_speed_10m} km/h
       - Weather: "${getWeatherCodeDescription(data.weather_code)}"
@@ -306,13 +306,22 @@ const DownloadButtons = ({ forecast, eventDetails, chartRef }) => {
 };
 
 const groupedCities = [
-    { country: "France", cities: [{ name: "Paris", value: "Paris, France" }] },
-    { country: "Switzerland", cities: [{ name: "Zurich", value: "Zurich, Switzerland" }] },
-    { country: "Japan", cities: [{ name: "Tokyo", value: "Tokyo, Japan" }] },
+    { country: "Argentina", cities: [{ name: "Buenos Aires", value: "Buenos Aires, Argentina" }] },
     { country: "Australia", cities: [{ name: "Sydney", value: "Sydney, Australia" }] },
-    { country: "UAE", cities: [{ name: "Dubai", value: "Dubai, UAE" }] },
     { country: "Brazil", cities: [{ name: "Rio de Janeiro", value: "Rio de Janeiro, Brazil" }] },
-    { country: "Singapore", cities: [{ name: "Singapore", value: "Singapore" }] }
+    { country: "Canada", cities: [{ name: "Toronto", value: "Toronto, Canada" }] },
+    { country: "China", cities: [{ name: "Shanghai", value: "Shanghai, China" }] },
+    { country: "Egypt", cities: [{ name: "Cairo", value: "Cairo, Egypt" }] },
+    { country: "France", cities: [{ name: "Paris", value: "Paris, France" }] },
+    { country: "Germany", cities: [{ name: "Berlin", value: "Berlin, Germany" }] },
+    { country: "India", cities: [{ name: "Mumbai", value: "Mumbai, India" }] },
+    { country: "Italy", cities: [{ name: "Rome", value: "Rome, Italy" }] },
+    { country: "Japan", cities: [{ name: "Tokyo", value: "Tokyo, Japan" }] },
+    { country: "Russia", cities: [{ name: "Moscow", value: "Moscow, Russia" }] },
+    { country: "Singapore", cities: [{ name: "Singapore", value: "Singapore" }] },
+    { country: "South Africa", cities: [{ name: "Cape Town", value: "Cape Town, South Africa" }] },
+    { country: "Switzerland", cities: [{ name: "Zurich", value: "Zurich, Switzerland" }] },
+    { country: "UAE", cities: [{ name: "Dubai", value: "Dubai, UAE" }] },
 ];
 
 const EventForm = ({ onSubmit, isLoading }) => {
@@ -368,13 +377,17 @@ const HistoricalStats = ({ weather }) => React.createElement(React.Fragment, nul
 
 const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
+        const data = payload[0]?.payload;
         return React.createElement('div', { className: "bg-slate-800/80 backdrop-blur-sm border border-slate-600 rounded-lg p-3 text-white shadow-lg" },
-            React.createElement('p', { className: "text-sm font-semibold mb-1" }, `Time: ${label}`),
-            React.createElement('p', { className: "text-sm text-purple-300" }, `Chance of Rain: ${payload[0].value}%`)
+            React.createElement('p', { className: "text-sm font-semibold mb-2" }, `Time: ${label}`),
+            React.createElement('p', { className: "text-sm text-purple-300" }, `Chance of Rain: ${data.precipitation}%`),
+            React.createElement('p', { className: "text-sm text-orange-300" }, `Temperature: ${data.temperature}°C`),
+            React.createElement('p', { className: "text-sm text-cyan-300" }, `Wind: ${data.wind} km/h`)
         );
     }
     return null;
 };
+
 
 const ForecastDisplay = ({ forecast, eventDetails }) => {
   const { gemini, weather, hourly, forecastType } = forecast;
@@ -406,7 +419,7 @@ const ForecastDisplay = ({ forecast, eventDetails }) => {
         ),
         React.createElement('div', { className: "bg-white/5 p-8 rounded-b-2xl shadow-2xl border border-white/10 backdrop-blur-sm space-y-8" },
             isHistorical && React.createElement(HistoricalInfoBanner),
-            !isHistorical && hourly && React.createElement('div', null, React.createElement('h3', { className: "text-lg font-semibold text-purple-300 mb-4" }, `Hourly Precipitation Outlook (around ${eventTime})`), React.createElement('div', { className: "h-64 w-full", ref: chartRef }, React.createElement(ResponsiveContainer, { width: "100%", height: "100%" }, React.createElement(LineChart, { data: hourly, margin: { top: 5, right: 20, left: -10, bottom: 5 } }, React.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "rgba(255, 255, 255, 0.1)" }), React.createElement(XAxis, { dataKey: "time", stroke: "#9ca3af", fontSize: 12 }), React.createElement(YAxis, { unit: "%", stroke: "#9ca3af", fontSize: 12, domain: [0, 100] }), React.createElement(Tooltip, { content: React.createElement(CustomTooltip) }), React.createElement(Line, { type: "monotone", dataKey: "precipitation", name: "Chance of Rain", stroke: "#a78bfa", strokeWidth: 3, dot: { r: 4, strokeWidth: 2, fill: '#a78bfa', fillOpacity: 0.8 }, activeDot: { r: 8, stroke: '#c4b5fd', strokeWidth: 2 } })))),),
+            !isHistorical && hourly && React.createElement('div', null, React.createElement('h3', { className: "text-lg font-semibold text-purple-300 mb-4" }, `Hourly Outlook (around ${eventTime})`), React.createElement('div', { className: "h-64 w-full", ref: chartRef }, React.createElement(ResponsiveContainer, { width: "100%", height: "100%" }, React.createElement(LineChart, { data: hourly, margin: { top: 5, right: 20, left: -10, bottom: 5 } }, React.createElement(CartesianGrid, { strokeDasharray: "3 3", stroke: "rgba(255, 255, 255, 0.1)" }), React.createElement(XAxis, { dataKey: "time", stroke: "#9ca3af", fontSize: 12 }), React.createElement(YAxis, { unit: "%", stroke: "#9ca3af", fontSize: 12, domain: [0, 100] }), React.createElement(Tooltip, { content: React.createElement(CustomTooltip) }), React.createElement(Line, { type: "monotone", dataKey: "precipitation", name: "Chance of Rain", stroke: "#a78bfa", strokeWidth: 3, dot: { r: 4, strokeWidth: 2, fill: '#a78bfa', fillOpacity: 0.8 }, activeDot: { r: 8, stroke: '#c4b5fd', strokeWidth: 2 } })))),),
             React.createElement('div', { className: "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 text-center border-t border-white/10 pt-6" }, isHistorical ? React.createElement(HistoricalStats, { weather: weather }) : React.createElement(DailyStats, { weather: weather })),
             React.createElement(DownloadButtons, { forecast: forecast, eventDetails: eventDetails, chartRef: chartRef })
         )
@@ -448,7 +461,12 @@ const App = () => {
         };
         const chartStart = Math.max(0, eventHourIndex - 3);
         const chartEnd = Math.min(weather.hourly.time.length, eventHourIndex + 4);
-        const hourlyChartData = weather.hourly.time.slice(chartStart, chartEnd).map((time, i) => ({ time: new Date(time).toLocaleTimeString([], { hour: 'numeric', hour12: true }), precipitation: weather.hourly.precipitation_probability[chartStart + i] }));
+        const hourlyChartData = weather.hourly.time.slice(chartStart, chartEnd).map((time, i) => ({ 
+            time: new Date(time).toLocaleTimeString([], { hour: 'numeric', hour12: true }), 
+            precipitation: weather.hourly.precipitation_probability[chartStart + i],
+            temperature: Math.round(weather.hourly.temperature_2m[chartStart + i]),
+            wind: Math.round(weather.hourly.wind_speed_10m[chartStart + i]),
+        }));
         const geminiResponse = await getForecastSummary(relevantWeatherData);
         setForecast({ forecastType: 'daily', gemini: geminiResponse, weather: relevantWeatherData, hourly: hourlyChartData });
       } else {
@@ -467,8 +485,8 @@ const App = () => {
     React.createElement('div', { className: "min-h-screen bg-gray-900 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"},
       React.createElement('main', { className: "container mx-auto px-4 py-8 md:py-16" },
         React.createElement('header', { className: "text-center mb-12" },
-          React.createElement('h1', { className: "text-4xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-white" }, "Will It Rain on My Düğün?"),
-          React.createElement('p', { className: "mt-4 text-lg text-gray-300 max-w-2xl mx-auto" }, "An intelligent forecaster for your outdoor events, powered by NASA data and AI.")
+          React.createElement('h1', { className: "text-4xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-white" }, "REGMESS"),
+          React.createElement('p', { className: "mt-4 text-lg text-gray-300 max-w-2xl mx-auto" }, "Calculating the chance of rain for your outdoor events. A blend of German 'Regen' (rain) & 'Messen' (to measure), powered by NASA data and AI.")
         ),
         React.createElement('div', { className: "max-w-2xl mx-auto" },
             React.createElement('div', { className: "bg-white/5 p-8 rounded-2xl shadow-2xl border border-white/10 backdrop-blur-sm" },
