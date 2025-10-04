@@ -3,14 +3,11 @@
 
 # Learn if it will rain in your outdoor activities
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/drive/1cvQuZREA0296OztSbO9Ge6N2_kwSJIVA
+An intelligent forecaster for your outdoor events, powered by NASA data and AI.
 
 ## Run Locally
 
 **Prerequisites:**  Node.js
-
 
 1. Install dependencies:
    `npm install`
