@@ -1,13 +1,17 @@
 <div align="center">
-<a href="https://hizliresim.com/1tvv9n2"><img src="https://i.hizliresim.com/1tvv9n2.png" alt="Resim Yükle"></a>
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-# Learn if it will rain in your outdoor activities
+# Run and deploy your AI Studio app
 
-An intelligent forecaster for your outdoor events, powered by NASA data and AI.
+This contains everything you need to run your app locally.
+
+View your app in AI Studio: https://ai.studio/apps/drive/1cvQuZREA0296OztSbO9Ge6N2_kwSJIVA
 
 ## Run Locally
 
 **Prerequisites:**  Node.js
+
 
 1. Install dependencies:
    `npm install`
