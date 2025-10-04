@@ -1,6 +1,5 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="[https://i.hizliresim.com/1tvv9n2.png](https://hizliresim.com/1tvv9n2)" />
-</div>
+[![Image](https://i.hizliresim.com/1tvv9n2.png)](https://hizliresim.com/1tvv9n2)
 
 # Learn if it will rain in your outdoor activities
 
